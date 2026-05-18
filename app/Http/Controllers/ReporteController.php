@@ -134,11 +134,19 @@ class ReporteController extends Controller
         return to_route('reportes.show', $reporte);
     }
 
-    public function export(): BinaryFileResponse
+    public function export(Request $request): BinaryFileResponse
     {
+        $validated = $request->validate([
+            'desde' => ['nullable', 'date'],
+            'hasta' => ['nullable', 'date', 'after_or_equal:desde'],
+        ]);
+
         $filename = 'reportes-'.now()->format('Ymd-His').'.xlsx';
 
-        return Excel::download(new ReportesExport, $filename);
+        return Excel::download(
+            new ReportesExport($validated['desde'] ?? null, $validated['hasta'] ?? null),
+            $filename,
+        );
     }
 
     public function destroy(Reporte $reporte): RedirectResponse

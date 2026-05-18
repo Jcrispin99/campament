@@ -16,6 +16,11 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ReportesExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMapping, WithStyles, WithTitle
 {
+    public function __construct(
+        public readonly ?string $desde = null,
+        public readonly ?string $hasta = null,
+    ) {}
+
     public function query(): Builder
     {
         return Reporte::query()
@@ -27,6 +32,8 @@ class ReportesExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMap
                 'analisisCausa:id,nombre',
                 'reportadoPor:id,name',
             ])
+            ->when($this->desde, fn (Builder $q) => $q->whereDate('fecha', '>=', $this->desde))
+            ->when($this->hasta, fn (Builder $q) => $q->whereDate('fecha', '<=', $this->hasta))
             ->orderBy('fecha', 'desc')
             ->orderBy('id', 'desc');
     }

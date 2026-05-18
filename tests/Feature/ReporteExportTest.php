@@ -35,6 +35,44 @@ class ReporteExportTest extends TestCase
         );
     }
 
+    public function test_export_filters_by_date_range(): void
+    {
+        Excel::fake();
+
+        $user = User::factory()->create();
+
+        Reporte::factory()->create(['fecha' => '2026-05-05']);
+        Reporte::factory()->create(['fecha' => '2026-05-20']);
+        Reporte::factory()->create(['fecha' => '2026-06-10']);
+
+        $this->actingAs($user)
+            ->get(route('reportes.export', [
+                'desde' => '2026-05-01',
+                'hasta' => '2026-05-31',
+            ]))
+            ->assertOk();
+
+        Excel::assertDownloaded(
+            'reportes-'.now()->format('Ymd-His').'.xlsx',
+            fn (ReportesExport $export) => $export->query()->count() === 2
+                && $export->desde === '2026-05-01'
+                && $export->hasta === '2026-05-31',
+        );
+    }
+
+    public function test_export_rejects_invalid_date_range(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->from(route('reportes.dashboard'))
+            ->get(route('reportes.export', [
+                'desde' => '2026-05-31',
+                'hasta' => '2026-05-01',
+            ]))
+            ->assertSessionHasErrors('hasta');
+    }
+
     public function test_export_headings_are_in_spanish_and_in_correct_order(): void
     {
         $export = new ReportesExport;

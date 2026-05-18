@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Download, Eye, Pencil, Plus, Trash2 } from 'lucide-vue-next';
+import { Eye, Pencil, Plus, Trash2 } from 'lucide-vue-next';
 import CriticidadBadge from '@/components/Reportes/CriticidadBadge.vue';
 import { Button } from '@/components/ui/button';
-import {
-    create,
-    destroy,
-    edit,
-    exportMethod,
-    index,
-    show,
-} from '@/routes/reportes';
+import { create, destroy, edit, index, show } from '@/routes/reportes';
 import type { PaginatedReportes } from '@/types/reportes';
 
 defineProps<{ reportes: PaginatedReportes }>();
@@ -51,25 +44,11 @@ const confirmarEliminar = (id: number) => {
                     Inspecciones de comedores e incidentes registrados.
                 </p>
             </div>
-            <div class="flex flex-col gap-2 sm:flex-row">
-                <Button
-                    as-child
-                    variant="outline"
-                    class="w-full sm:w-auto"
-                >
-                    <a
-                        :href="exportMethod().url"
-                        :download="`reportes-${new Date().toISOString().slice(0, 10)}.xlsx`"
-                    >
-                        <Download class="mr-2 h-4 w-4" /> Exportar Excel
-                    </a>
-                </Button>
-                <Button as-child class="w-full sm:w-auto">
-                    <Link :href="create().url">
-                        <Plus class="mr-2 h-4 w-4" /> Nuevo reporte
-                    </Link>
-                </Button>
-            </div>
+            <Button as-child class="w-full sm:w-auto">
+                <Link :href="create().url">
+                    <Plus class="mr-2 h-4 w-4" /> Nuevo reporte
+                </Link>
+            </Button>
         </div>
 
         <!-- Mobile: lista de cards -->
