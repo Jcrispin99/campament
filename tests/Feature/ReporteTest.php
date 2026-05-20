@@ -144,6 +144,22 @@ class ReporteTest extends TestCase
         Storage::disk('public')->assertMissing('evidencias/x.jpg');
     }
 
+    public function test_store_redirects_to_create_when_crear_otro_flag_is_set(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+        [$tipo, $clasificacion] = $this->makeTipoYClasificacion();
+
+        $payload = $this->validPayload($tipo, $clasificacion) + ['crear_otro' => '1'];
+
+        $this->actingAs($user)
+            ->post(route('reportes.store'), $payload)
+            ->assertRedirect(route('reportes.create'));
+
+        $this->assertSame(1, Reporte::count());
+    }
+
     public function test_index_eager_loads_relations(): void
     {
         $this->withoutVite();

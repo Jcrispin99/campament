@@ -58,6 +58,7 @@ const form = useForm({
     evidencias: [] as { imagen: File | null; descripcion: string }[],
     evidencias_nuevas: [] as { imagen: File | null; descripcion: string }[],
     evidencias_a_eliminar: [] as number[],
+    crear_otro: false,
 });
 
 watch(
@@ -126,8 +127,9 @@ const evidenciasExistentes = computed<Evidencia[]>(
     () => initialReporte?.evidencias ?? [],
 );
 
-const submit = () => {
+const submit = (seguirRegistrando: boolean = false) => {
     if (props.mode === 'create') {
+        form.crear_otro = seguirRegistrando;
         form.post(store().url, {
             forceFormData: true,
             preserveScroll: true,
@@ -158,7 +160,7 @@ const eliminarReporte = () => {
 </script>
 
 <template>
-    <form class="space-y-8" @submit.prevent="submit">
+    <form class="space-y-8" @submit.prevent="submit()">
         <!-- Sección: Información general -->
         <section class="space-y-4 rounded-lg border p-6">
             <h3 class="text-base font-semibold">Información general</h3>
@@ -540,6 +542,16 @@ const eliminarReporte = () => {
                     @click="cancelar"
                 >
                     Cancelar
+                </Button>
+                <Button
+                    v-if="mode === 'create'"
+                    type="button"
+                    variant="secondary"
+                    :disabled="form.processing"
+                    class="w-full sm:w-auto"
+                    @click="submit(true)"
+                >
+                    Crear y registrar otro
                 </Button>
                 <Button
                     type="submit"

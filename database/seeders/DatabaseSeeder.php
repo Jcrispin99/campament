@@ -19,6 +19,12 @@ class DatabaseSeeder extends Seeder
             TipoIncidenteSeeder::class,
             ClasificacionIncidenteSeeder::class,
             AnalisisCausaSeeder::class,
+            PlatoSeeder::class,
+            ComponenteSeeder::class,
+            TipoCorteSeeder::class,
+            TipoProductoSeeder::class,
+            ProveedorSeeder::class,
+            OrigenSeeder::class,
         ]);
 
         User::factory()->create([

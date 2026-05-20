@@ -2,12 +2,26 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     BarChart3,
+    Beef,
     BookOpen,
+    Boxes,
+    Building2,
+    CalendarSync,
     ChevronRight,
     ClipboardList,
+    FileSearch,
     FolderGit2,
+    Gauge,
+    Layers,
     LayoutGrid,
     List,
+    MapPin,
+    Package,
+    Salad,
+    Scale,
+    Scissors,
+    Truck,
+    UtensilsCrossed,
 } from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
@@ -36,6 +50,20 @@ import {
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { dashboard } from '@/routes';
+import { index as analisisCausasIndex } from '@/routes/catalogos/analisis-causas';
+import { index as clasificacionesIndex } from '@/routes/catalogos/clasificaciones';
+import { index as comedoresIndex } from '@/routes/catalogos/comedores';
+import { index as componentesIndex } from '@/routes/catalogos/componentes';
+import { index as origenesIndex } from '@/routes/catalogos/origenes';
+import { index as platosIndex } from '@/routes/catalogos/platos';
+import { index as proveedoresIndex } from '@/routes/catalogos/proveedores';
+import { index as serviciosIndex } from '@/routes/catalogos/servicios';
+import { index as tiposCorteIndex } from '@/routes/catalogos/tipos-corte';
+import { index as tiposIncidenteIndex } from '@/routes/catalogos/tipos-incidente';
+import { index as tiposProductoIndex } from '@/routes/catalogos/tipos-producto';
+import { index as gramajesIndex } from '@/routes/gramajes';
+import { index as materiasPrimasIndex } from '@/routes/materias-primas';
+import { index as menusIndex } from '@/routes/menus';
 import {
     dashboard as reportesDashboard,
     index as reportesIndex,
@@ -72,6 +100,46 @@ const reportesItems = computed(() => [
 
 const reportesIsOpen = computed(() =>
     reportesItems.value.some((item) => isCurrentUrl(item.href)),
+);
+
+const indicadoresSsppItems = computed(() => [
+    {
+        title: 'Gramajes',
+        href: gramajesIndex().url,
+        icon: Scale,
+    },
+    {
+        title: 'Menú',
+        href: menusIndex().url,
+        icon: CalendarSync,
+    },
+    {
+        title: 'Materia prima',
+        href: materiasPrimasIndex().url,
+        icon: Boxes,
+    },
+]);
+
+const indicadoresSsppIsOpen = computed(() =>
+    indicadoresSsppItems.value.some((item) => isCurrentUrl(item.href)),
+);
+
+const catalogosItems = computed(() => [
+    { title: 'Comedores', href: comedoresIndex().url, icon: Building2 },
+    { title: 'Servicios', href: serviciosIndex().url, icon: UtensilsCrossed },
+    { title: 'Tipos de incidente', href: tiposIncidenteIndex().url, icon: Layers },
+    { title: 'Clasificaciones', href: clasificacionesIndex().url, icon: List },
+    { title: 'Análisis de causa', href: analisisCausasIndex().url, icon: FileSearch },
+    { title: 'Platos', href: platosIndex().url, icon: Salad },
+    { title: 'Componentes', href: componentesIndex().url, icon: Beef },
+    { title: 'Tipos de corte', href: tiposCorteIndex().url, icon: Scissors },
+    { title: 'Tipos de producto', href: tiposProductoIndex().url, icon: Package },
+    { title: 'Proveedores', href: proveedoresIndex().url, icon: Truck },
+    { title: 'Orígenes', href: origenesIndex().url, icon: MapPin },
+]);
+
+const catalogosIsOpen = computed(() =>
+    catalogosItems.value.some((item) => isCurrentUrl(item.href)),
 );
 
 const footerNavItems: NavItem[] = [
@@ -131,6 +199,86 @@ const footerNavItems: NavItem[] = [
                                 <SidebarMenuSub>
                                     <SidebarMenuSubItem
                                         v-for="sub in reportesItems"
+                                        :key="sub.title"
+                                    >
+                                        <SidebarMenuSubButton
+                                            as-child
+                                            :is-active="isCurrentUrl(sub.href)"
+                                        >
+                                            <Link :href="sub.href">
+                                                <component :is="sub.icon" />
+                                                <span>{{ sub.title }}</span>
+                                            </Link>
+                                        </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                </SidebarMenuSub>
+                            </CollapsibleContent>
+                        </SidebarMenuItem>
+                    </Collapsible>
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup class="px-2 py-0">
+                <SidebarGroupLabel>Indicadores SSPP</SidebarGroupLabel>
+                <SidebarMenu>
+                    <Collapsible
+                        :default-open="indicadoresSsppIsOpen"
+                        class="group/collapsible"
+                    >
+                        <SidebarMenuItem>
+                            <CollapsibleTrigger as-child>
+                                <SidebarMenuButton tooltip="Indicadores SSPP">
+                                    <Gauge />
+                                    <span>Indicadores SSPP</span>
+                                    <ChevronRight
+                                        class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                                    />
+                                </SidebarMenuButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                                <SidebarMenuSub>
+                                    <SidebarMenuSubItem
+                                        v-for="sub in indicadoresSsppItems"
+                                        :key="sub.title"
+                                    >
+                                        <SidebarMenuSubButton
+                                            as-child
+                                            :is-active="isCurrentUrl(sub.href)"
+                                        >
+                                            <Link :href="sub.href">
+                                                <component :is="sub.icon" />
+                                                <span>{{ sub.title }}</span>
+                                            </Link>
+                                        </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                </SidebarMenuSub>
+                            </CollapsibleContent>
+                        </SidebarMenuItem>
+                    </Collapsible>
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup class="px-2 py-0">
+                <SidebarGroupLabel>Catálogos</SidebarGroupLabel>
+                <SidebarMenu>
+                    <Collapsible
+                        :default-open="catalogosIsOpen"
+                        class="group/collapsible"
+                    >
+                        <SidebarMenuItem>
+                            <CollapsibleTrigger as-child>
+                                <SidebarMenuButton tooltip="Catálogos">
+                                    <Layers />
+                                    <span>Catálogos</span>
+                                    <ChevronRight
+                                        class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                                    />
+                                </SidebarMenuButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                                <SidebarMenuSub>
+                                    <SidebarMenuSubItem
+                                        v-for="sub in catalogosItems"
                                         :key="sub.title"
                                     >
                                         <SidebarMenuSubButton

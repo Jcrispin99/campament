@@ -71,6 +71,10 @@ class ReporteController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Reporte creado.')]);
 
+        if ($request->boolean('crear_otro')) {
+            return to_route('reportes.create');
+        }
+
         return to_route('reportes.show', $reporte);
     }
 
