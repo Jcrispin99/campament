@@ -193,7 +193,7 @@ const exportarOpen = ref(false);
                 description="Cantidad de hallazgos según categoría principal"
                 :empty="!tieneDatos || tipoBars.length === 0"
             >
-                <BarChart :data="tipoBars" :height="260" />
+                <BarChart :data="tipoBars" :height="260" value-suffix="reportes" />
             </ChartCard>
 
             <ChartCard
@@ -201,7 +201,7 @@ const exportarOpen = ref(false);
                 description="Distribución de la causa raíz identificada"
                 :empty="!tieneDatos || causaSlices.length === 0"
             >
-                <DonutChart :data="causaSlices" />
+                <DonutChart :data="causaSlices" value-suffix="reportes" />
             </ChartCard>
 
             <ChartCard
@@ -209,7 +209,7 @@ const exportarOpen = ref(false);
                 description="Reportes que ya fueron atendidos versus pendientes"
                 :empty="!tieneDatos"
             >
-                <DonutChart :data="corregidoSlices" />
+                <DonutChart :data="corregidoSlices" value-suffix="reportes" />
             </ChartCard>
 
             <ChartCard
@@ -217,7 +217,7 @@ const exportarOpen = ref(false);
                 description="Severidad de los hallazgos registrados"
                 :empty="!tieneDatos || criticidadBars.length === 0"
             >
-                <BarChart :data="criticidadBars" :height="260" />
+                <BarChart :data="criticidadBars" :height="260" value-suffix="reportes" />
             </ChartCard>
         </div>
 
@@ -236,7 +236,7 @@ const exportarOpen = ref(false);
             description="Cantidad de reportes registrados por semana del año"
             :empty="!tieneDatos || porSemana.length === 0"
         >
-            <LineChart :data="porSemana" :height="260" />
+            <LineChart :data="porSemana" :height="260" value-suffix="reportes" />
         </ChartCard>
 
         <ExportarReportesModal

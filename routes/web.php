@@ -12,8 +12,11 @@ use App\Http\Controllers\Catalogos\TipoCorteController;
 use App\Http\Controllers\Catalogos\TipoIncidenteController;
 use App\Http\Controllers\Catalogos\TipoProductoController;
 use App\Http\Controllers\GramajeController;
+use App\Http\Controllers\Gramajes\DashboardController as GramajesDashboardController;
 use App\Http\Controllers\MateriaPrimaController;
+use App\Http\Controllers\MateriasPrimas\DashboardController as MateriasPrimasDashboardController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\Menus\DashboardController as MenusDashboardController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\Reportes\DashboardController as ReportesDashboardController;
 use App\Http\Controllers\Teams\TeamInvitationController;
@@ -34,14 +37,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('gramajes/export', [GramajeController::class, 'export'])
         ->name('gramajes.export');
+    Route::get('gramajes/dashboard', [GramajesDashboardController::class, 'index'])
+        ->name('gramajes.dashboard');
     Route::resource('gramajes', GramajeController::class);
 
     Route::get('menus/export', [MenuController::class, 'export'])
         ->name('menus.export');
+    Route::get('menus/dashboard', [MenusDashboardController::class, 'index'])
+        ->name('menus.dashboard');
     Route::resource('menus', MenuController::class);
 
     Route::get('materias-primas/export', [MateriaPrimaController::class, 'export'])
         ->name('materias-primas.export');
+    Route::get('materias-primas/dashboard', [MateriasPrimasDashboardController::class, 'index'])
+        ->name('materias-primas.dashboard');
     Route::resource('materias-primas', MateriaPrimaController::class)
         ->parameters(['materias-primas' => 'materiaPrima']);
 

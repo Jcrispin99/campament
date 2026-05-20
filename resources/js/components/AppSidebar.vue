@@ -61,9 +61,18 @@ import { index as serviciosIndex } from '@/routes/catalogos/servicios';
 import { index as tiposCorteIndex } from '@/routes/catalogos/tipos-corte';
 import { index as tiposIncidenteIndex } from '@/routes/catalogos/tipos-incidente';
 import { index as tiposProductoIndex } from '@/routes/catalogos/tipos-producto';
-import { index as gramajesIndex } from '@/routes/gramajes';
-import { index as materiasPrimasIndex } from '@/routes/materias-primas';
-import { index as menusIndex } from '@/routes/menus';
+import {
+    dashboard as gramajesDashboard,
+    index as gramajesIndex,
+} from '@/routes/gramajes';
+import {
+    dashboard as materiasPrimasDashboard,
+    index as materiasPrimasIndex,
+} from '@/routes/materias-primas';
+import {
+    dashboard as menusDashboard,
+    index as menusIndex,
+} from '@/routes/menus';
 import {
     dashboard as reportesDashboard,
     index as reportesIndex,
@@ -109,14 +118,29 @@ const indicadoresSsppItems = computed(() => [
         icon: Scale,
     },
     {
+        title: 'Dashboard gramajes',
+        href: gramajesDashboard().url,
+        icon: BarChart3,
+    },
+    {
         title: 'Menú',
         href: menusIndex().url,
         icon: CalendarSync,
     },
     {
+        title: 'Dashboard menú',
+        href: menusDashboard().url,
+        icon: BarChart3,
+    },
+    {
         title: 'Materia prima',
         href: materiasPrimasIndex().url,
         icon: Boxes,
+    },
+    {
+        title: 'Dashboard MP',
+        href: materiasPrimasDashboard().url,
+        icon: BarChart3,
     },
 ]);
 

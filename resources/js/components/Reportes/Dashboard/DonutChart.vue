@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { VisDonut, VisSingleContainer } from '@unovis/vue';
+import { Donut } from '@unovis/ts';
+import { VisDonut, VisSingleContainer, VisTooltip } from '@unovis/vue';
 import { computed } from 'vue';
 
 type Slice = { label: string; value: number; color: string };
 
-const props = defineProps<{
-    data: Slice[];
-    centralLabel?: string;
-    height?: number;
-}>();
+const props = withDefaults(
+    defineProps<{
+        data: Slice[];
+        centralLabel?: string;
+        height?: number;
+        valueSuffix?: string;
+    }>(),
+    {
+        valueSuffix: 'registros',
+    },
+);
 
 const total = computed(() =>
     props.data.reduce((acc, s) => acc + s.value, 0),
@@ -20,6 +27,20 @@ const colorAccessor = (_d: Slice, i: number): string =>
     props.data[i]?.color ?? 'var(--primary)';
 
 const valueAccessor = (d: Slice): number => d.value;
+
+const tooltipTrigger = {
+    [Donut.selectors.segment]: (d: { data: Slice }): string => {
+        const slice = d.data;
+        const pct =
+            total.value > 0
+                ? Math.round((slice.value / total.value) * 100)
+                : 0;
+        return `<div class="rounded-md bg-popover px-2 py-1 text-popover-foreground shadow-md">
+            <div class="font-medium">${slice.label}</div>
+            <div class="text-xs text-muted-foreground">${slice.value} ${props.valueSuffix} (${pct}%)</div>
+        </div>`;
+    },
+};
 </script>
 
 <template>
@@ -32,6 +53,7 @@ const valueAccessor = (d: Slice): number => d.value;
                 :arc-width="32"
                 :show-empty-segments="false"
             />
+            <VisTooltip :triggers="tooltipTrigger" />
         </VisSingleContainer>
 
         <ul

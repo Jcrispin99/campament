@@ -5,14 +5,24 @@ import { reactive, watch } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { dashboard } from '@/routes/reportes';
+import { dashboard as reportesDashboard } from '@/routes/reportes';
 
 type Filtros = {
     desde: string | null;
     hasta: string | null;
 };
 
-const props = defineProps<{ value: Filtros }>();
+const props = withDefaults(
+    defineProps<{
+        value: Filtros;
+        dashboardUrl?: string;
+    }>(),
+    {
+        dashboardUrl: undefined,
+    },
+);
+
+const targetUrl = (): string => props.dashboardUrl ?? reportesDashboard().url;
 
 const state = reactive<Filtros>({
     desde: props.value.desde,
@@ -31,18 +41,17 @@ const aplicar = () => {
     const data: Record<string, string> = {};
     if (state.desde) data.desde = state.desde;
     if (state.hasta) data.hasta = state.hasta;
-    router.get(dashboard().url, data, {
+    router.get(targetUrl(), data, {
         preserveState: false,
         preserveScroll: true,
     });
 };
 
 const limpiar = () => {
-    router.get(
-        dashboard().url,
-        {},
-        { preserveState: false, preserveScroll: true },
-    );
+    router.get(targetUrl(), {}, {
+        preserveState: false,
+        preserveScroll: true,
+    });
 };
 
 const setRango = (dias: number) => {

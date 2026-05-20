@@ -8,6 +8,7 @@ const props = defineProps<{
     value: number;
     total?: number;
     tone?: Tone;
+    suffix?: string;
 }>();
 
 const toneClass = computed(() => {
@@ -52,7 +53,7 @@ const pct = computed(() => {
                     numberToneClass,
                 ]"
             >
-                {{ value.toLocaleString('es-PE') }}
+                {{ value.toLocaleString('es-PE') }}{{ suffix ?? '' }}
             </p>
             <p v-if="pct !== null" class="text-sm text-muted-foreground">
                 ({{ pct }}%)

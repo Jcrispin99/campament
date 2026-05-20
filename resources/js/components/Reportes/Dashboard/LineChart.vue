@@ -10,10 +10,16 @@ import {
 
 type Point = { semana: number; total: number };
 
-const props = defineProps<{
-    data: Point[];
-    height?: number;
-}>();
+const props = withDefaults(
+    defineProps<{
+        data: Point[];
+        height?: number;
+        valueSuffix?: string;
+    }>(),
+    {
+        valueSuffix: 'registros',
+    },
+);
 
 const xAccessor = (d: Point): number => d.semana;
 const yAccessor = (d: Point): number => d.total;
@@ -22,7 +28,7 @@ const tooltipTrigger = {
     '.vis-scatter circle': (d: Point) =>
         `<div class="rounded-md bg-popover px-2 py-1 text-popover-foreground shadow-md">
             <div class="font-medium">Semana ${d.semana}</div>
-            <div class="text-xs text-muted-foreground">${d.total} reportes</div>
+            <div class="text-xs text-muted-foreground">${d.total} ${props.valueSuffix}</div>
         </div>`,
 };
 </script>
@@ -42,7 +48,7 @@ const tooltipTrigger = {
             :size="6"
         />
         <VisAxis type="x" label="Semana" :tick-format="(v: number) => Math.round(v).toString()" />
-        <VisAxis type="y" label="Reportes" :tick-format="(v: number) => Math.round(v).toString()" />
+        <VisAxis type="y" :label="props.valueSuffix.charAt(0).toUpperCase() + props.valueSuffix.slice(1)" :tick-format="(v: number) => Math.round(v).toString()" />
         <VisCrosshair />
         <VisTooltip :triggers="tooltipTrigger" />
     </VisXYContainer>

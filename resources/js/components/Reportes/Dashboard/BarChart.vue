@@ -8,11 +8,17 @@ import {
 
 type Bar = { label: string; value: number; color: string };
 
-const props = defineProps<{
-    data: Bar[];
-    height?: number;
-    yLabel?: string;
-}>();
+const props = withDefaults(
+    defineProps<{
+        data: Bar[];
+        height?: number;
+        yLabel?: string;
+        valueSuffix?: string;
+    }>(),
+    {
+        valueSuffix: 'registros',
+    },
+);
 
 const xAccessor = (_d: Bar, i: number): number => i;
 const yAccessor = (d: Bar): number => d.value;
@@ -26,7 +32,7 @@ const tooltipTrigger = {
     'g.vis-grouped-bar-group rect': (d: Bar) =>
         `<div class="rounded-md bg-popover px-2 py-1 text-popover-foreground shadow-md">
             <div class="font-medium">${d.label}</div>
-            <div class="text-xs text-muted-foreground">${d.value} reportes</div>
+            <div class="text-xs text-muted-foreground">${d.value} ${props.valueSuffix}</div>
         </div>`,
 };
 </script>
