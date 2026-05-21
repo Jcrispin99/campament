@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { Eye, Pencil, Plus, Trash2 } from 'lucide-vue-next';
 import CriticidadBadge from '@/components/Reportes/CriticidadBadge.vue';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import { create, destroy, edit, index, show } from '@/routes/reportes';
 import type { PaginatedReportes } from '@/types/reportes';
 
@@ -14,14 +15,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 const confirmarEliminar = (id: number) => {
     if (!confirm('¿Eliminar este reporte? Esta acción no se puede deshacer.')) {

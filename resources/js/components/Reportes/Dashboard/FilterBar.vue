@@ -5,6 +5,7 @@ import { reactive, watch } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toLocalISO } from '@/lib/fecha';
 import { dashboard as reportesDashboard } from '@/routes/reportes';
 
 type Filtros = {
@@ -58,8 +59,8 @@ const setRango = (dias: number) => {
     const hoy = new Date();
     const desde = new Date();
     desde.setDate(desde.getDate() - dias);
-    state.desde = desde.toISOString().slice(0, 10);
-    state.hasta = hoy.toISOString().slice(0, 10);
+    state.desde = toLocalISO(desde);
+    state.hasta = toLocalISO(hoy);
     aplicar();
 };
 
@@ -71,8 +72,8 @@ const setSemanaActual = () => {
     lunes.setDate(hoy.getDate() + offsetALunes);
     const domingo = new Date(lunes);
     domingo.setDate(lunes.getDate() + 6);
-    state.desde = lunes.toISOString().slice(0, 10);
-    state.hasta = domingo.toISOString().slice(0, 10);
+    state.desde = toLocalISO(lunes);
+    state.hasta = toLocalISO(domingo);
     aplicar();
 };
 
@@ -80,8 +81,8 @@ const setMesActual = () => {
     const hoy = new Date();
     const inicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
     const fin = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
-    state.desde = inicio.toISOString().slice(0, 10);
-    state.hasta = fin.toISOString().slice(0, 10);
+    state.desde = toLocalISO(inicio);
+    state.hasta = toLocalISO(fin);
     aplicar();
 };
 </script>

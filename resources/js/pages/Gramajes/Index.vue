@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import ExportarRangoFechasModal from '@/components/Exports/ExportarRangoFechasModal.vue';
 import EstatusBadge from '@/components/Gramajes/EstatusBadge.vue';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import {
     create,
     destroy,
@@ -25,14 +26,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 const abreviado = (unidad: UnidadGramaje | undefined): string =>
     unidad === 'UNIDADES' ? 'u' : 'g';

@@ -14,6 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { todayLocalISO } from '@/lib/fecha';
 import { destroy, show, store, update } from '@/routes/reportes';
 import type {
     Evidencia,
@@ -39,7 +40,7 @@ const calcSemana = (fecha: string): number => {
     return Math.max(1, Math.min(53, Math.ceil((diff + yearStart.getUTCDay() + 1) / 7)));
 };
 
-const todayISO = new Date().toISOString().slice(0, 10);
+const todayISO = todayLocalISO();
 
 const form = useForm({
     fecha: initialReporte?.fecha?.slice(0, 10) ?? todayISO,

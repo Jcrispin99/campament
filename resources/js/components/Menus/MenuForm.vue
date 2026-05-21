@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { todayLocalISO } from '@/lib/fecha';
 import { destroy, show, store, update } from '@/routes/menus';
 import type { Menu, MenuCatalogos } from '@/types/menus';
 
@@ -36,7 +37,7 @@ const calcSemana = (fecha: string): number => {
     );
 };
 
-const todayISO = new Date().toISOString().slice(0, 10);
+const todayISO = todayLocalISO();
 
 const form = useForm({
     fecha: initialMenu?.fecha?.slice(0, 10) ?? todayISO,

@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import ConformidadBadge from '@/components/MateriasPrimas/ConformidadBadge.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import { edit, index, show } from '@/routes/materias-primas';
 import type { MateriaPrima } from '@/types/materias-primas';
 
@@ -22,14 +23,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: 'long', day: 'numeric' });
 
 const todasConformes = computed(
     () =>

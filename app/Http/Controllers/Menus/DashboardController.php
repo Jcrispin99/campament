@@ -20,7 +20,7 @@ class DashboardController extends Controller
             'hasta' => ['nullable', 'date', 'after_or_equal:desde'],
         ]);
 
-        $hoy = CarbonImmutable::today();
+        $hoy = CarbonImmutable::now('America/Lima')->startOfDay();
         $desde = isset($validated['desde']) ? CarbonImmutable::parse($validated['desde']) : null;
         $hasta = isset($validated['hasta']) ? CarbonImmutable::parse($validated['hasta']) : null;
 

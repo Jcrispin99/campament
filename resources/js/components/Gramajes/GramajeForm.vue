@@ -14,6 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { todayLocalISO } from '@/lib/fecha';
 import { destroy, show, store, update } from '@/routes/gramajes';
 import type {
     EstatusGramaje,
@@ -42,7 +43,7 @@ const calcSemana = (fecha: string): number => {
     );
 };
 
-const todayISO = new Date().toISOString().slice(0, 10);
+const todayISO = todayLocalISO();
 
 const initialMedidas: number[] = initialGramaje?.medidas?.length
     ? initialGramaje.medidas.map((m) => Number(m.peso))

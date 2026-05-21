@@ -4,6 +4,7 @@ import { ArrowLeft, Pencil } from 'lucide-vue-next';
 import { computed } from 'vue';
 import EstatusBadge from '@/components/Gramajes/EstatusBadge.vue';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import { edit, index, show } from '@/routes/gramajes';
 import type { Gramaje } from '@/types/gramajes';
 
@@ -21,14 +22,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: 'long', day: 'numeric' });
 
 const unidadAbreviada = computed<string>(() =>
     props.gramaje.componente?.unidad === 'UNIDADES' ? 'u' : 'g',

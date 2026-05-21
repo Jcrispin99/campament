@@ -11,6 +11,7 @@ import KpiCard from '@/components/Reportes/Dashboard/KpiCard.vue';
 import LineChart from '@/components/Reportes/Dashboard/LineChart.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import { dashboard, exportMethod, index, show } from '@/routes/menus';
 
 type Filtros = {
@@ -125,14 +126,8 @@ const conformidadSlices = computed(() =>
 const tieneDatos = computed(() => props.kpis.total > 0);
 const exportarOpen = ref(false);
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 const conformidadClass = (valor: string): string => {
     const v = valor.toLowerCase();

@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Pencil } from 'lucide-vue-next';
 import { computed } from 'vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import { edit, index, show } from '@/routes/menus';
 import type { Menu } from '@/types/menus';
 
@@ -18,14 +19,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: 'long', day: 'numeric' });
 
 const conformidadClass = computed<string>(() => {
     const v = props.menu.conformidad.toLowerCase();

@@ -12,6 +12,7 @@ import { ref } from 'vue';
 import ExportarRangoFechasModal from '@/components/Exports/ExportarRangoFechasModal.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import {
     create,
     destroy,
@@ -32,14 +33,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 const conformidadClass = (valor: string): string => {
     const v = valor.toLowerCase();

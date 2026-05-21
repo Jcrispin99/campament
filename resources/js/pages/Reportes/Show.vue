@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import { ArrowLeft, Pencil } from 'lucide-vue-next';
 import CriticidadBadge from '@/components/Reportes/CriticidadBadge.vue';
 import { Button } from '@/components/ui/button';
+import { formatFechaLocal } from '@/lib/fecha';
 import { edit, index, show } from '@/routes/reportes';
 import type { Reporte } from '@/types/reportes';
 
@@ -20,14 +21,8 @@ defineOptions({
     }),
 });
 
-const formatFecha = (iso: string): string => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-};
+const formatFecha = (iso: string): string =>
+    formatFechaLocal(iso, { year: 'numeric', month: 'long', day: 'numeric' });
 
 const yesNo = (b: boolean) => (b ? 'Sí' : 'No');
 </script>
